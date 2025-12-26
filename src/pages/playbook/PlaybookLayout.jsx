@@ -49,8 +49,8 @@ export default function PlaybookLayout() {
   }
 
   const navLinks = [
-    { to: '/playbook', label: t('playbook'), icon: Book, end: true },
     { to: '/playbook/directory', label: t('directory'), icon: Search },
+    { to: '/playbook/dashboard', label: t('playbook'), icon: Book },
     { to: '/playbook/checklists', label: t('checklists'), icon: CheckSquare }
   ]
 

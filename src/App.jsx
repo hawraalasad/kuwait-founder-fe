@@ -83,7 +83,8 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<PlaybookDashboard />} />
+        <Route index element={<Navigate to="/playbook/directory" replace />} />
+        <Route path="dashboard" element={<PlaybookDashboard />} />
         <Route path="directory" element={<Directory />} />
         <Route path="checklists" element={<Checklists />} />
       </Route>
