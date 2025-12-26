@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Users, Tag, Clock, ArrowRight } from 'lucide-react'
+import { api } from '../../config/api'
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState(null)
@@ -13,7 +14,7 @@ export default function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('/api/admin/stats', { credentials: 'include' })
+      const res = await api('/api/admin/stats')
       if (res.ok) {
         const data = await res.json()
         setStats(data)

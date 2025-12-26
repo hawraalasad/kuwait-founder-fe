@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Plus, Edit, Trash2, Search } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 export default function AdminProviders() {
   const [providers, setProviders] = useState([])
@@ -15,7 +16,7 @@ export default function AdminProviders() {
 
   const fetchProviders = async () => {
     try {
-      const res = await fetch('/api/admin/providers', { credentials: 'include' })
+      const res = await api('/api/admin/providers')
       if (res.ok) {
         const data = await res.json()
         setProviders(data)
@@ -33,9 +34,8 @@ export default function AdminProviders() {
     }
 
     try {
-      const res = await fetch(`/api/admin/providers/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
+      const res = await api(`/api/admin/providers/${id}`, {
+        method: 'DELETE'
       })
 
       if (res.ok) {

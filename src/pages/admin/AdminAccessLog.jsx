@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Trash2, RefreshCw, Check, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 export default function AdminAccessLog() {
   const [logs, setLogs] = useState([])
@@ -15,7 +16,7 @@ export default function AdminAccessLog() {
   const fetchLogs = async () => {
     setLoading(true)
     try {
-      const res = await fetch('/api/admin/access-log', { credentials: 'include' })
+      const res = await api('/api/admin/access-log')
       if (res.ok) {
         const data = await res.json()
         setLogs(data)
@@ -34,9 +35,8 @@ export default function AdminAccessLog() {
 
     setClearing(true)
     try {
-      const res = await fetch('/api/admin/access-log', {
-        method: 'DELETE',
-        credentials: 'include'
+      const res = await api('/api/admin/access-log', {
+        method: 'DELETE'
       })
 
       if (res.ok) {

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Eye, EyeOff } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 const iconOptions = [
   'Building', 'Palette', 'Monitor', 'TrendingUp', 'MapPin',
@@ -29,7 +30,7 @@ export default function AdminSectionEdit() {
 
   const fetchSection = async () => {
     try {
-      const res = await fetch('/api/admin/sections', { credentials: 'include' })
+      const res = await api('/api/admin/sections')
       if (res.ok) {
         const data = await res.json()
         const found = data.find(s => s._id === id)
@@ -54,10 +55,9 @@ export default function AdminSectionEdit() {
     setSaving(true)
 
     try {
-      const res = await fetch(`/api/admin/sections/${id}`, {
+      const res = await api(`/api/admin/sections/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ title, icon, order, content, status })
       })
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 export default function AdminCategories() {
   const [categories, setCategories] = useState([])
@@ -18,7 +19,7 @@ export default function AdminCategories() {
 
   const fetchCategories = async () => {
     try {
-      const res = await fetch('/api/admin/categories', { credentials: 'include' })
+      const res = await api('/api/admin/categories')
       if (res.ok) {
         const data = await res.json()
         setCategories(data)
@@ -35,10 +36,9 @@ export default function AdminCategories() {
     setSaving(true)
 
     try {
-      const res = await fetch('/api/admin/categories', {
+      const res = await api('/api/admin/categories', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ name: newName.trim() })
       })
 
@@ -63,10 +63,9 @@ export default function AdminCategories() {
     setSaving(true)
 
     try {
-      const res = await fetch(`/api/admin/categories/${id}`, {
+      const res = await api(`/api/admin/categories/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ name: editingName.trim() })
       })
 
@@ -91,9 +90,8 @@ export default function AdminCategories() {
     }
 
     try {
-      const res = await fetch(`/api/admin/categories/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
+      const res = await api(`/api/admin/categories/${id}`, {
+        method: 'DELETE'
       })
 
       if (res.ok) {

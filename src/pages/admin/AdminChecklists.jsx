@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Plus, Edit, Trash2, CheckSquare } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 export default function AdminChecklists() {
   const [checklists, setChecklists] = useState([])
@@ -14,7 +15,7 @@ export default function AdminChecklists() {
 
   const fetchChecklists = async () => {
     try {
-      const res = await fetch('/api/admin/checklists', { credentials: 'include' })
+      const res = await api('/api/admin/checklists')
       if (res.ok) {
         const data = await res.json()
         setChecklists(data)
@@ -32,9 +33,8 @@ export default function AdminChecklists() {
     }
 
     try {
-      const res = await fetch(`/api/admin/checklists/${id}`, {
-        method: 'DELETE',
-        credentials: 'include'
+      const res = await api(`/api/admin/checklists/${id}`, {
+        method: 'DELETE'
       })
 
       if (res.ok) {

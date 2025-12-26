@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence, Reorder } from 'framer-motion'
 import { ArrowLeft, Save, Plus, Trash2, GripVertical } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 export default function AdminChecklistForm() {
   const { id } = useParams()
@@ -25,7 +26,7 @@ export default function AdminChecklistForm() {
 
   const fetchChecklist = async () => {
     try {
-      const res = await fetch('/api/admin/checklists', { credentials: 'include' })
+      const res = await api('/api/admin/checklists')
       if (res.ok) {
         const data = await res.json()
         const checklist = data.find(c => c._id === id)
@@ -89,10 +90,9 @@ export default function AdminChecklistForm() {
         ? `/api/admin/checklists/${id}`
         : '/api/admin/checklists'
 
-      const res = await fetch(url, {
+      const res = await api(url, {
         method: isEditing ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify(payload)
       })
 

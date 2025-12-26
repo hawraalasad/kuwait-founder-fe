@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FileText, Edit, Eye, EyeOff } from 'lucide-react'
+import { api } from '../../config/api'
 
 export default function AdminSections() {
   const [sections, setSections] = useState([])
@@ -13,7 +14,7 @@ export default function AdminSections() {
 
   const fetchSections = async () => {
     try {
-      const res = await fetch('/api/admin/sections', { credentials: 'include' })
+      const res = await api('/api/admin/sections')
       if (res.ok) {
         const data = await res.json()
         setSections(data)

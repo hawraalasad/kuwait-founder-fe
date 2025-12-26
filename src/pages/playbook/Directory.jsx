@@ -11,6 +11,7 @@ import {
   X
 } from 'lucide-react'
 import { useLanguage } from '../../context/LanguageContext'
+import { api } from '../../config/api'
 
 function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
   const priceColors = {
@@ -216,8 +217,8 @@ export default function Directory() {
   const fetchData = async () => {
     try {
       const [providersRes, categoriesRes] = await Promise.all([
-        fetch('/api/providers', { credentials: 'include' }),
-        fetch('/api/categories', { credentials: 'include' })
+        api('/api/providers'),
+        api('/api/categories')
       ])
 
       if (!providersRes.ok || !categoriesRes.ok) {

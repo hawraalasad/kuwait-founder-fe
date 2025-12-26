@@ -19,6 +19,7 @@ import {
   Zap
 } from 'lucide-react'
 import toast from 'react-hot-toast'
+import { api } from '../../config/api'
 
 function AccessCodeModal({ isOpen, onClose, onSave, editingCode }) {
   const [formData, setFormData] = useState({
@@ -74,10 +75,9 @@ function AccessCodeModal({ isOpen, onClose, onSave, editingCode }) {
   const handleGenerate = async () => {
     setGenerating(true)
     try {
-      const res = await fetch('/api/admin/access-codes/generate', {
+      const res = await api('/api/admin/access-codes/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
           customerName: formData.customerName,
           customerPhone: formData.customerPhone,
@@ -260,7 +260,7 @@ export default function AdminAccessCodes() {
 
   const fetchCodes = async () => {
     try {
-      const res = await fetch('/api/admin/access-codes', { credentials: 'include' })
+      const res = await api('/api/admin/access-codes')
       if (!res.ok) throw new Error('Failed to fetch')
       const data = await res.json()
       setCodes(data)
@@ -277,10 +277,9 @@ export default function AdminAccessCodes() {
         ? `/api/admin/access-codes/${editingCode._id}`
         : '/api/admin/access-codes'
 
-      const res = await fetch(url, {
+      const res = await api(url, {
         method: isEditing ? 'PUT' : 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({
           ...formData,
           expiresAt: formData.expiresAt || null
@@ -303,9 +302,8 @@ export default function AdminAccessCodes() {
 
   const handleToggle = async (code) => {
     try {
-      const res = await fetch(`/api/admin/access-codes/${code._id}/toggle`, {
-        method: 'PATCH',
-        credentials: 'include'
+      const res = await api(`/api/admin/access-codes/${code._id}/toggle`, {
+        method: 'PATCH'
       })
 
       if (!res.ok) throw new Error('Failed to toggle')
@@ -323,9 +321,8 @@ export default function AdminAccessCodes() {
     }
 
     try {
-      const res = await fetch(`/api/admin/access-codes/${code._id}`, {
-        method: 'DELETE',
-        credentials: 'include'
+      const res = await api(`/api/admin/access-codes/${code._id}`, {
+        method: 'DELETE'
       })
 
       if (!res.ok) throw new Error('Failed to delete')

@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { ArrowLeft, Save, Upload, X } from 'lucide-react'
 import toast from 'react-hot-toast'
+import API_BASE_URL, { api } from '../../config/api'
 
 export default function AdminProviderForm() {
   const { id } = useParams()
@@ -32,7 +33,7 @@ export default function AdminProviderForm() {
 
   const fetchData = async () => {
     try {
-      const catRes = await fetch('/api/admin/categories', { credentials: 'include' })
+      const catRes = await api('/api/admin/categories')
       if (catRes.ok) {
         const catData = await catRes.json()
         setCategories(catData)
@@ -42,7 +43,7 @@ export default function AdminProviderForm() {
       }
 
       if (isEditing) {
-        const provRes = await fetch('/api/admin/providers', { credentials: 'include' })
+        const provRes = await api('/api/admin/providers')
         if (provRes.ok) {
           const providers = await provRes.json()
           const provider = providers.find(p => p._id === id)
@@ -100,11 +101,11 @@ export default function AdminProviderForm() {
         formData.append('logo', logo)
       }
 
-      const url = isEditing
+      const endpoint = isEditing
         ? `/api/admin/providers/${id}`
         : '/api/admin/providers'
 
-      const res = await fetch(url, {
+      const res = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: isEditing ? 'PUT' : 'POST',
         credentials: 'include',
         body: formData

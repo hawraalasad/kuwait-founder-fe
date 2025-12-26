@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
+import { api } from '../config/api'
 
 const AuthContext = createContext(null)
 
@@ -15,8 +16,8 @@ export function AuthProvider({ children }) {
   const checkAuth = async () => {
     try {
       const [userRes, adminRes] = await Promise.all([
-        fetch('/api/auth/check', { credentials: 'include' }),
-        fetch('/api/admin/check', { credentials: 'include' })
+        api('/api/auth/check'),
+        api('/api/admin/check')
       ])
 
       const userData = await userRes.json()
@@ -33,10 +34,9 @@ export function AuthProvider({ children }) {
 
   const login = async (password) => {
     try {
-      const res = await fetch('/api/auth/access', {
+      const res = await api('/api/auth/access', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ password })
       })
 
@@ -55,10 +55,9 @@ export function AuthProvider({ children }) {
 
   const adminLogin = async (password) => {
     try {
-      const res = await fetch('/api/admin/auth', {
+      const res = await api('/api/admin/auth', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
         body: JSON.stringify({ password })
       })
 
@@ -77,10 +76,7 @@ export function AuthProvider({ children }) {
 
   const logout = async () => {
     try {
-      await fetch('/api/auth/logout', {
-        method: 'POST',
-        credentials: 'include'
-      })
+      await api('/api/auth/logout', { method: 'POST' })
       setIsAuthenticated(false)
     } catch (error) {
       console.error('Logout error:', error)
@@ -89,10 +85,7 @@ export function AuthProvider({ children }) {
 
   const adminLogout = async () => {
     try {
-      await fetch('/api/admin/logout', {
-        method: 'POST',
-        credentials: 'include'
-      })
+      await api('/api/admin/logout', { method: 'POST' })
       setIsAdmin(false)
     } catch (error) {
       console.error('Admin logout error:', error)
