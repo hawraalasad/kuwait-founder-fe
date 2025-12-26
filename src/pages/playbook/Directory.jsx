@@ -67,7 +67,14 @@ function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
 
             {/* Badges */}
             <div className="flex flex-wrap gap-2 mt-2">
-              {provider.category && (
+              {/* Handle multiple categories */}
+              {provider.categories && provider.categories.length > 0 ? (
+                provider.categories.map((cat, idx) => (
+                  <span key={idx} className="px-2 py-1 bg-deep-teal/10 text-deep-teal text-xs font-medium rounded">
+                    {isRTL && cat?.nameAr ? cat.nameAr : cat?.name || cat}
+                  </span>
+                ))
+              ) : provider.category && (
                 <span className="px-2 py-1 bg-deep-teal/10 text-deep-teal text-xs font-medium rounded">
                   {isRTL && provider.category.nameAr ? provider.category.nameAr : provider.category.name}
                 </span>
@@ -251,9 +258,11 @@ export default function Directory() {
       if (!matchesSearch) return false
     }
 
-    // Category filter
-    if (selectedCategory && provider.category?._id !== selectedCategory) {
-      return false
+    // Category filter - support both multiple categories and legacy single category
+    if (selectedCategory) {
+      const hasCategory = provider.categories?.some(cat => (cat._id || cat) === selectedCategory)
+        || provider.category?._id === selectedCategory
+      if (!hasCategory) return false
     }
 
     // Price range filter

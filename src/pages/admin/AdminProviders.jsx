@@ -124,7 +124,7 @@ export default function AdminProviders() {
               <thead className="bg-gray-50 border-b border-gray-100">
                 <tr>
                   <th className="text-left p-4 font-medium text-medium-gray">Provider</th>
-                  <th className="text-left p-4 font-medium text-medium-gray">Category</th>
+                  <th className="text-left p-4 font-medium text-medium-gray">Categories</th>
                   <th className="text-left p-4 font-medium text-medium-gray">Price Range</th>
                   <th className="text-right p-4 font-medium text-medium-gray">Actions</th>
                 </tr>
@@ -158,9 +158,21 @@ export default function AdminProviders() {
                       </div>
                     </td>
                     <td className="p-4">
-                      <span className="px-2 py-1 bg-deep-teal/10 text-deep-teal text-sm rounded">
-                        {provider.category?.name || 'Uncategorized'}
-                      </span>
+                      <div className="flex flex-wrap gap-1">
+                        {provider.categories && provider.categories.length > 0 ? (
+                          provider.categories.map((cat, idx) => (
+                            <span key={idx} className="px-2 py-1 bg-deep-teal/10 text-deep-teal text-sm rounded">
+                              {cat?.name || cat}
+                            </span>
+                          ))
+                        ) : provider.category ? (
+                          <span className="px-2 py-1 bg-deep-teal/10 text-deep-teal text-sm rounded">
+                            {provider.category?.name || 'Uncategorized'}
+                          </span>
+                        ) : (
+                          <span className="text-medium-gray text-sm">Uncategorized</span>
+                        )}
+                      </div>
                     </td>
                     <td className="p-4">
                       <span className={`px-2 py-1 text-sm rounded ${priceColors[provider.priceRange]}`}>

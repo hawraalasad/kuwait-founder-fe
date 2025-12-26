@@ -18,7 +18,7 @@ export default function AdminProviderForm() {
   const [description, setDescription] = useState('')
   const [logo, setLogo] = useState(null)
   const [logoPreview, setLogoPreview] = useState('')
-  const [category, setCategory] = useState('')
+  const [selectedCategories, setSelectedCategories] = useState([])
   const [priceRange, setPriceRange] = useState('mid')
   const [bestFor, setBestFor] = useState('')
   const [contactWhatsApp, setContactWhatsApp] = useState('')
@@ -37,9 +37,6 @@ export default function AdminProviderForm() {
       if (catRes.ok) {
         const catData = await catRes.json()
         setCategories(catData)
-        if (catData.length > 0 && !category) {
-          setCategory(catData[0]._id)
-        }
       }
 
       if (isEditing) {
@@ -51,7 +48,12 @@ export default function AdminProviderForm() {
             setName(provider.name)
             setDescription(provider.description || '')
             setLogoPreview(provider.logo || '')
-            setCategory(provider.category?._id || '')
+            // Handle both single category (legacy) and multiple categories
+            if (provider.categories && Array.isArray(provider.categories)) {
+              setSelectedCategories(provider.categories.map(c => c._id || c))
+            } else if (provider.category) {
+              setSelectedCategories([provider.category._id || provider.category])
+            }
             setPriceRange(provider.priceRange)
             setBestFor(provider.bestFor?.join(', ') || '')
             setContactWhatsApp(provider.contactWhatsApp || '')
@@ -81,15 +83,32 @@ export default function AdminProviderForm() {
     }
   }
 
+  const handleCategoryToggle = (categoryId) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(categoryId)) {
+        return prev.filter(id => id !== categoryId)
+      } else {
+        return [...prev, categoryId]
+      }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
+
+    if (selectedCategories.length === 0) {
+      toast.error('Please select at least one category')
+      return
+    }
+
     setSaving(true)
 
     try {
       const formData = new FormData()
       formData.append('name', name)
       formData.append('description', description)
-      formData.append('category', category)
+      // Send categories as JSON string array
+      formData.append('categories', JSON.stringify(selectedCategories))
       formData.append('priceRange', priceRange)
       formData.append('bestFor', bestFor)
       formData.append('contactWhatsApp', contactWhatsApp)
@@ -172,22 +191,32 @@ export default function AdminProviderForm() {
             />
           </div>
 
-          {/* Category */}
+          {/* Categories */}
           <div>
             <label className="block text-sm font-medium text-charcoal mb-2">
-              Category *
+              Categories * <span className="text-medium-gray font-normal">(select one or more)</span>
             </label>
-            <select
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-              className="input-field"
-              required
-            >
-              <option value="">Select category</option>
+            <div className="border border-light-gray rounded-lg p-3 max-h-48 overflow-y-auto space-y-2">
               {categories.map(cat => (
-                <option key={cat._id} value={cat._id}>{cat.name}</option>
+                <label key={cat._id} className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-1 rounded">
+                  <input
+                    type="checkbox"
+                    checked={selectedCategories.includes(cat._id)}
+                    onChange={() => handleCategoryToggle(cat._id)}
+                    className="w-4 h-4 rounded border-light-gray text-deep-teal focus:ring-deep-teal"
+                  />
+                  <span className="text-charcoal">{cat.name}</span>
+                </label>
               ))}
-            </select>
+              {categories.length === 0 && (
+                <p className="text-medium-gray text-sm">No categories available</p>
+              )}
+            </div>
+            {selectedCategories.length > 0 && (
+              <p className="text-sm text-medium-gray mt-1">
+                {selectedCategories.length} selected
+              </p>
+            )}
           </div>
 
           {/* Price Range */}
