@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-off-white text-charcoal antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-midnight-navy;
+  }
+
+  /* RTL Support */
+  [dir="rtl"] {
+    font-family: 'Segoe UI', Tahoma, 'Arabic UI Text', 'Simplified Arabic', sans-serif;
+  }
+
+  [dir="rtl"] .text-left {
+    text-align: right;
+  }
+
+  [dir="rtl"] .text-right {
+    text-align: left;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-deep-teal text-white px-6 py-3 rounded-lg font-semibold
+           hover:bg-ocean-blue transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-kuwait-gold focus:ring-offset-2;
+  }
+
+  .btn-gold {
+    @apply bg-kuwait-gold text-midnight-navy px-6 py-3 rounded-lg font-semibold
+           hover:bg-opacity-90 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-kuwait-gold focus:ring-offset-2;
+  }
+
+  .btn-secondary {
+    @apply bg-light-gray text-charcoal px-6 py-3 rounded-lg font-semibold
+           hover:bg-gray-300 transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-light-gray focus:ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply border-2 border-deep-teal text-deep-teal px-6 py-3 rounded-lg font-semibold
+           hover:bg-deep-teal hover:text-white transition-colors duration-200
+           focus:outline-none focus:ring-2 focus:ring-deep-teal focus:ring-offset-2;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-light-gray
+           focus:outline-none focus:ring-2 focus:ring-kuwait-gold focus:border-transparent
+           bg-white text-charcoal placeholder-medium-gray;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-md p-6;
+  }
+
+  .label {
+    @apply text-sm font-semibold uppercase tracking-wide text-kuwait-gold;
+  }
+
+  /* Prose styling for playbook content */
+  .prose h2 {
+    @apply text-2xl font-bold text-midnight-navy mt-8 mb-4;
+  }
+
+  .prose h3 {
+    @apply text-xl font-bold text-midnight-navy mt-6 mb-3;
+  }
+
+  .prose p {
+    @apply text-charcoal mb-4 leading-relaxed;
+  }
+
+  .prose ul {
+    @apply list-disc list-inside mb-4 space-y-2 text-charcoal;
+  }
+
+  .prose ol {
+    @apply list-decimal list-inside mb-4 space-y-2 text-charcoal;
+  }
+
+  .prose a {
+    @apply text-deep-teal hover:text-ocean-blue underline;
+  }
+
+  .prose strong {
+    @apply font-semibold text-midnight-navy;
+  }
+
+  /* Callout boxes */
+  .callout {
+    @apply p-4 rounded-lg mb-4 border-l-4;
+  }
+
+  [dir="rtl"] .callout {
+    @apply border-l-0 border-r-4;
+  }
+
+  .callout-tip {
+    @apply bg-green-50 border-green-500 text-green-800;
+  }
+
+  .callout-warning {
+    @apply bg-amber-50 border-amber-500 text-amber-800;
+  }
+
+  .callout-note {
+    @apply bg-blue-50 border-blue-500 text-blue-800;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
