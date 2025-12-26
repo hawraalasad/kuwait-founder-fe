@@ -5,8 +5,6 @@ import {
   ArrowRight,
   ArrowLeft,
   Users,
-  CheckCircle,
-  Star,
   Building,
   Palette,
   Code,
@@ -48,11 +46,6 @@ export default function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
           >
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full mb-6">
-              <Star className="w-4 h-4 text-kuwait-gold" />
-              <span className="text-sm">{t('freeAccess')}</span>
-            </div>
-
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight text-white">
               {t('directoryHeroTitle')}
             </h1>
@@ -113,41 +106,6 @@ export default function LandingPage() {
               )
             })}
           </motion.div>
-        </div>
-      </section>
-
-      {/* Why Use This Directory */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-6">
-          <div className="max-w-4xl mx-auto">
-            <motion.div
-              className="text-center mb-12"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-midnight-navy mb-4">
-                {t('whyUseDirectory')}
-              </h2>
-            </motion.div>
-
-            <motion.div
-              className="grid md:grid-cols-3 gap-8"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              {t('directoryBenefits').map((benefit, index) => (
-                <div key={index} className="text-center">
-                  <div className="w-16 h-16 bg-kuwait-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-8 h-8 text-kuwait-gold" />
-                  </div>
-                  <h3 className="font-bold text-midnight-navy mb-2">{benefit.title}</h3>
-                  <p className="text-medium-gray text-sm">{benefit.desc}</p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
         </div>
       </section>
 

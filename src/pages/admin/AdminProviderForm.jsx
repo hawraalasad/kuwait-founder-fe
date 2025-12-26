@@ -19,7 +19,6 @@ export default function AdminProviderForm() {
   const [logo, setLogo] = useState(null)
   const [logoPreview, setLogoPreview] = useState('')
   const [selectedCategories, setSelectedCategories] = useState([])
-  const [priceRange, setPriceRange] = useState('mid')
   const [bestFor, setBestFor] = useState('')
   const [contactWhatsApp, setContactWhatsApp] = useState('')
   const [contactInstagram, setContactInstagram] = useState('')
@@ -54,7 +53,6 @@ export default function AdminProviderForm() {
             } else if (provider.category) {
               setSelectedCategories([provider.category._id || provider.category])
             }
-            setPriceRange(provider.priceRange)
             setBestFor(provider.bestFor?.join(', ') || '')
             setContactWhatsApp(provider.contactWhatsApp || '')
             setContactInstagram(provider.contactInstagram || '')
@@ -109,7 +107,6 @@ export default function AdminProviderForm() {
       formData.append('description', description)
       // Send categories as JSON string array
       formData.append('categories', JSON.stringify(selectedCategories))
-      formData.append('priceRange', priceRange)
       formData.append('bestFor', bestFor)
       formData.append('contactWhatsApp', contactWhatsApp)
       formData.append('contactInstagram', contactInstagram)
@@ -220,22 +217,6 @@ export default function AdminProviderForm() {
                 {selectedCategories.length} selected
               </p>
             )}
-          </div>
-
-          {/* Price Range */}
-          <div>
-            <label className="block text-sm font-medium text-charcoal mb-2">
-              Price Range
-            </label>
-            <select
-              value={priceRange}
-              onChange={(e) => setPriceRange(e.target.value)}
-              className="input-field"
-            >
-              <option value="budget">Budget</option>
-              <option value="mid">Mid-Range</option>
-              <option value="premium">Premium</option>
-            </select>
           </div>
 
           {/* Best For */}

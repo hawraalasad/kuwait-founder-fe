@@ -13,7 +13,7 @@ const translations = {
     // Landing Page - Directory Focus
     freeAccess: 'Free Access',
     directoryHeroTitle: 'Find trusted service providers for your Kuwait business',
-    directoryHeroSubtitle: 'A curated directory of agencies, freelancers, and service providers — vetted by founders, for founders.',
+    directoryHeroSubtitle: 'A curated directory of agencies, freelancers, and service providers — built for founders.',
     browseDirectory: 'Browse Directory',
 
     whatYoullFind: 'What You\'ll Find',
@@ -63,7 +63,6 @@ const translations = {
 
     // Directory
     serviceProviderDirectory: 'Service Provider Directory',
-    vettedProviders: 'Vetted service providers with practical notes from real experience.',
     searchProviders: 'Search providers...',
     allCategories: 'All Categories',
     budget: 'Budget',
@@ -105,7 +104,7 @@ const translations = {
     // Landing Page - Directory Focus
     freeAccess: 'وصول مجاني',
     directoryHeroTitle: 'ابحث عن مقدمي خدمات موثوقين لعملك في الكويت',
-    directoryHeroSubtitle: 'دليل منتقى من الوكالات والمستقلين ومقدمي الخدمات — موثق من مؤسسين، للمؤسسين.',
+    directoryHeroSubtitle: 'دليل منتقى من الوكالات والمستقلين ومقدمي الخدمات — مصمم للمؤسسين.',
     browseDirectory: 'تصفح الدليل',
 
     whatYoullFind: 'ماذا ستجد',
@@ -155,7 +154,6 @@ const translations = {
 
     // Directory
     serviceProviderDirectory: 'دليل مقدمي الخدمات',
-    vettedProviders: 'مقدمو خدمات موثوقون مع ملاحظات عملية من تجارب حقيقية.',
     searchProviders: 'البحث عن مقدمي خدمات...',
     allCategories: 'جميع الفئات',
     budget: 'اقتصادي',

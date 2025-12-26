@@ -14,18 +14,6 @@ import { useLanguage } from '../../context/LanguageContext'
 import { api } from '../../config/api'
 
 function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
-  const priceColors = {
-    budget: 'bg-green-100 text-green-700',
-    mid: 'bg-blue-100 text-blue-700',
-    premium: 'bg-kuwait-gold/20 text-kuwait-gold'
-  }
-
-  const priceLabels = {
-    budget: t('budget'),
-    mid: t('mid'),
-    premium: t('premium')
-  }
-
   return (
     <motion.div
       className="bg-white rounded-xl shadow-sm overflow-hidden"
@@ -79,9 +67,6 @@ function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
                   {isRTL && provider.category.nameAr ? provider.category.nameAr : provider.category.name}
                 </span>
               )}
-              <span className={`px-2 py-1 text-xs font-medium rounded ${priceColors[provider.priceRange]}`}>
-                {priceLabels[provider.priceRange]}
-              </span>
             </div>
 
             {/* Description preview */}
@@ -211,7 +196,6 @@ export default function Directory() {
 
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
-  const [selectedPriceRanges, setSelectedPriceRanges] = useState([])
   const [expandedId, setExpandedId] = useState(null)
   const [showFilters, setShowFilters] = useState(false)
 
@@ -265,29 +249,15 @@ export default function Directory() {
       if (!hasCategory) return false
     }
 
-    // Price range filter
-    if (selectedPriceRanges.length > 0 && !selectedPriceRanges.includes(provider.priceRange)) {
-      return false
-    }
-
     return true
   })
-
-  const togglePriceRange = (range) => {
-    setSelectedPriceRanges(prev =>
-      prev.includes(range)
-        ? prev.filter(r => r !== range)
-        : [...prev, range]
-    )
-  }
 
   const clearFilters = () => {
     setSearchQuery('')
     setSelectedCategory('')
-    setSelectedPriceRanges([])
   }
 
-  const hasActiveFilters = searchQuery || selectedCategory || selectedPriceRanges.length > 0
+  const hasActiveFilters = searchQuery || selectedCategory
 
   if (loading) {
     return (
@@ -323,12 +293,9 @@ export default function Directory() {
     <div>
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-midnight-navy mb-2">
+        <h1 className="text-3xl font-bold text-midnight-navy">
           {t('serviceProviderDirectory')}
         </h1>
-        <p className="text-medium-gray">
-          {t('vettedProviders')}
-        </p>
       </div>
 
       {/* Search and Filters */}
@@ -374,23 +341,6 @@ export default function Directory() {
               ))}
             </select>
 
-            {/* Price range pills */}
-            <div className="flex gap-2">
-              {['budget', 'mid', 'premium'].map(range => (
-                <button
-                  key={range}
-                  onClick={() => togglePriceRange(range)}
-                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
-                    selectedPriceRanges.includes(range)
-                      ? 'bg-deep-teal text-white'
-                      : 'bg-light-gray text-charcoal hover:bg-gray-200'
-                  }`}
-                >
-                  {range === 'budget' ? t('budget') : range === 'mid' ? t('mid') : t('premium')}
-                </button>
-              ))}
-            </div>
-
             {hasActiveFilters && (
               <button
                 onClick={clearFilters}
@@ -428,28 +378,6 @@ export default function Directory() {
                     </option>
                   ))}
                 </select>
-              </div>
-
-              {/* Price range */}
-              <div className="mb-4">
-                <label className="block text-sm font-medium text-charcoal mb-2">
-                  {isRTL ? 'نطاق السعر' : 'Price Range'}
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {['budget', 'mid', 'premium'].map(range => (
-                    <button
-                      key={range}
-                      onClick={() => togglePriceRange(range)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        selectedPriceRanges.includes(range)
-                          ? 'bg-deep-teal text-white'
-                          : 'bg-light-gray text-charcoal'
-                      }`}
-                    >
-                      {range === 'budget' ? t('budget') : range === 'mid' ? t('mid') : t('premium')}
-                    </button>
-                  ))}
-                </div>
               </div>
 
               {hasActiveFilters && (

@@ -53,18 +53,6 @@ export default function AdminProviders() {
     p.name.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  const priceLabels = {
-    budget: 'Budget',
-    mid: 'Mid-Range',
-    premium: 'Premium'
-  }
-
-  const priceColors = {
-    budget: 'bg-green-100 text-green-700',
-    mid: 'bg-blue-100 text-blue-700',
-    premium: 'bg-kuwait-gold/20 text-kuwait-gold'
-  }
-
   if (loading) {
     return (
       <div className="bg-white rounded-xl p-6 animate-pulse">
@@ -125,7 +113,6 @@ export default function AdminProviders() {
                 <tr>
                   <th className="text-left p-4 font-medium text-medium-gray">Provider</th>
                   <th className="text-left p-4 font-medium text-medium-gray">Categories</th>
-                  <th className="text-left p-4 font-medium text-medium-gray">Price Range</th>
                   <th className="text-right p-4 font-medium text-medium-gray">Actions</th>
                 </tr>
               </thead>
@@ -173,11 +160,6 @@ export default function AdminProviders() {
                           <span className="text-medium-gray text-sm">Uncategorized</span>
                         )}
                       </div>
-                    </td>
-                    <td className="p-4">
-                      <span className={`px-2 py-1 text-sm rounded ${priceColors[provider.priceRange]}`}>
-                        {priceLabels[provider.priceRange]}
-                      </span>
                     </td>
                     <td className="p-4">
                       <div className="flex items-center justify-end gap-2">
