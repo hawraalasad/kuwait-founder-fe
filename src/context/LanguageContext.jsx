@@ -10,87 +10,38 @@ const translations = {
     checklists: 'Checklists',
     logout: 'Logout',
 
-    // Landing Page
-    heroTitle: 'Everything you need to build a business in Kuwait',
-    heroSubtitle: 'Without guesswork, wasted money, or bad advice.',
-    getAccess: 'Get Access — 10 KWD',
-    alreadyHaveAccess: 'Already have access?',
+    // Landing Page - Directory Focus
+    freeAccess: 'Free Access',
+    directoryHeroTitle: 'Find trusted service providers for your Kuwait business',
+    directoryHeroSubtitle: 'A curated directory of agencies, freelancers, and service providers — vetted by founders, for founders.',
+    browseDirectory: 'Browse Directory',
 
-    problemTitle: 'Starting a business in Kuwait is unnecessarily confusing',
-    problemSubtitle: 'We know because we\'ve been there.',
-    problems: [
-      'Fragmented information across Instagram, WhatsApp, and word of mouth',
-      'Overpriced agencies and unclear pricing',
-      'No clear guidance on legal setup, licensing, or hiring',
-      'Conflicting advice from people with different incentives',
-      'Fear of making expensive mistakes early'
+    whatYoullFind: 'What You\'ll Find',
+    whatYoullFindDesc: 'Browse through categories of service providers that every Kuwait founder needs.',
+
+    directoryCategories: [
+      { title: 'Legal & Licensing', desc: 'Company formation, trade licenses, legal consultants' },
+      { title: 'Branding & Design', desc: 'Logo design, brand identity, graphic designers' },
+      { title: 'Web & Tech', desc: 'Website development, apps, IT services' },
+      { title: 'Marketing', desc: 'Social media, advertising, PR agencies' },
+      { title: 'Accounting', desc: 'Bookkeeping, tax, financial services' },
+      { title: 'Office & Logistics', desc: 'Workspaces, shipping, suppliers' }
     ],
 
-    solutionLabel: 'The Solution',
-    solutionTitle: 'One playbook. Everything you need.',
-    solutionDesc: 'The Kuwait Founder Playbook is a comprehensive, practical guide that takes you from idea to launch. No fluff, no outdated info — just actionable steps from founders who\'ve done it.',
-
-    whatsInsideLabel: 'What\'s Inside',
-    whatsInsideTitle: '10 Comprehensive Chapters',
-
-    chapters: [
-      { title: 'Business Setup', desc: 'Legal structure, registration, licensing' },
-      { title: 'Branding & Identity', desc: 'Name, logo, visual identity resources' },
-      { title: 'Digital & Tech', desc: 'Website, tools, tech stack guidance' },
-      { title: 'Marketing & Growth', desc: 'Strategies for Kuwait market' },
-      { title: 'Offices & Logistics', desc: 'Workspaces, suppliers, operations' },
-      { title: 'Hiring & Employees', desc: 'Recruitment, visas, labor law' },
-      { title: 'Operations & Tools', desc: 'Systems, software, founder stack' },
-      { title: 'Sample Budgets', desc: 'Real cost breakdowns' },
-      { title: 'Common Mistakes', desc: 'What to avoid from day one' },
-      { title: 'Checklists', desc: 'Step-by-step action plans' }
+    whyUseDirectory: 'Why Use This Directory?',
+    directoryBenefits: [
+      { title: 'Vetted Providers', desc: 'Every provider is reviewed based on real founder experiences' },
+      { title: 'Practical Notes', desc: 'Honest feedback on pricing, quality, and what to expect' },
+      { title: 'Save Time', desc: 'Skip the Instagram hunting and WhatsApp recommendations' }
     ],
 
-    bonusTitle: 'Bonus: Service Provider Directory',
-    bonusDesc: 'Vetted list of agencies, freelancers, and service providers with real notes',
+    readyToFind: 'Ready to find your next service provider?',
+    startBrowsing: 'Browse our directory of trusted providers and find the right fit for your business.',
 
-    pricingLabel: 'Simple Pricing',
-    oneTimePayment: 'One-time payment',
-    pricingFeatures: [
-      'Lifetime access to all content',
-      'All future updates included',
-      'Service provider directory',
-      'Actionable checklists',
-      'No recurring fees'
-    ],
-    getAccessNow: 'Get Access Now',
+    comingSoon: 'Coming Soon',
+    playbookComingSoon: 'The Kuwait Founder Playbook',
+    playbookComingSoonDesc: 'A comprehensive guide covering everything from business setup to hiring. Coming soon with checklists, budgets, and step-by-step guidance.',
 
-    getStartedLabel: 'Get Started',
-    howToGetAccess: 'How to Get Access',
-    steps: [
-      { title: 'Message Us', desc: 'Send us a message on WhatsApp' },
-      { title: 'Complete Payment', desc: 'Pay 10 KWD via your preferred method' },
-      { title: 'Receive Password', desc: 'Get your access password instantly' },
-      { title: 'Unlock Playbook', desc: 'Access all content immediately' }
-    ],
-    messageOnWhatsApp: 'Message on WhatsApp',
-    enterPasswordHere: 'Enter your password here',
-
-    isThisForYou: 'Is This For You?',
-    thisIsForYou: 'This is for you if...',
-    thisIsNotForYou: 'This is NOT for you if...',
-    forYouList: [
-      'You\'re a first-time founder in Kuwait',
-      'You want to avoid expensive mistakes',
-      'You value practical, actionable information',
-      'You\'re tired of conflicting advice',
-      'You want to move fast with confidence'
-    ],
-    notForYouList: [
-      'You\'re looking for get-rich-quick schemes',
-      'You expect us to do the work for you',
-      'You\'re not serious about building a real business',
-      'You\'re an experienced serial entrepreneur',
-      'You prefer learning by trial and error'
-    ],
-
-    readyToBuild: 'Ready to build your business the right way?',
-    joinFounders: 'Join founders who are building with confidence using the Kuwait Founder Playbook.',
     builtForFounders: 'Built for Kuwait founders',
 
     // Access Page
@@ -151,87 +102,38 @@ const translations = {
     checklists: 'قوائم المهام',
     logout: 'تسجيل خروج',
 
-    // Landing Page
-    heroTitle: 'كل ما تحتاجه لبناء عملك في الكويت',
-    heroSubtitle: 'بدون تخمين أو إهدار للمال أو نصائح سيئة.',
-    getAccess: 'احصل على الوصول — ١٠ د.ك',
-    alreadyHaveAccess: 'لديك وصول بالفعل؟',
+    // Landing Page - Directory Focus
+    freeAccess: 'وصول مجاني',
+    directoryHeroTitle: 'ابحث عن مقدمي خدمات موثوقين لعملك في الكويت',
+    directoryHeroSubtitle: 'دليل منتقى من الوكالات والمستقلين ومقدمي الخدمات — موثق من مؤسسين، للمؤسسين.',
+    browseDirectory: 'تصفح الدليل',
 
-    problemTitle: 'بدء عمل تجاري في الكويت صعب بشكل غير ضروري',
-    problemSubtitle: 'نحن نعرف لأننا مررنا بذلك.',
-    problems: [
-      'معلومات متفرقة عبر انستغرام وواتساب والكلام الشفهي',
-      'وكالات باهظة الثمن وأسعار غير واضحة',
-      'لا توجد إرشادات واضحة حول الإعداد القانوني والترخيص والتوظيف',
-      'نصائح متضاربة من أشخاص بدوافع مختلفة',
-      'الخوف من ارتكاب أخطاء مكلفة في البداية'
+    whatYoullFind: 'ماذا ستجد',
+    whatYoullFindDesc: 'تصفح فئات مقدمي الخدمات التي يحتاجها كل مؤسس في الكويت.',
+
+    directoryCategories: [
+      { title: 'القانونية والتراخيص', desc: 'تأسيس الشركات، الرخص التجارية، المستشارين القانونيين' },
+      { title: 'العلامة التجارية والتصميم', desc: 'تصميم الشعار، الهوية البصرية، المصممين' },
+      { title: 'الويب والتقنية', desc: 'تطوير المواقع، التطبيقات، خدمات تقنية المعلومات' },
+      { title: 'التسويق', desc: 'وسائل التواصل الاجتماعي، الإعلانات، وكالات العلاقات العامة' },
+      { title: 'المحاسبة', desc: 'مسك الدفاتر، الضرائب، الخدمات المالية' },
+      { title: 'المكاتب واللوجستيات', desc: 'مساحات العمل، الشحن، الموردين' }
     ],
 
-    solutionLabel: 'الحل',
-    solutionTitle: 'دليل واحد. كل ما تحتاجه.',
-    solutionDesc: 'دليل المؤسس الكويتي هو دليل شامل وعملي يأخذك من الفكرة إلى الإطلاق. بدون حشو أو معلومات قديمة — فقط خطوات عملية من مؤسسين مروا بالتجربة.',
-
-    whatsInsideLabel: 'ماذا بالداخل',
-    whatsInsideTitle: '١٠ فصول شاملة',
-
-    chapters: [
-      { title: 'تأسيس العمل', desc: 'الهيكل القانوني، التسجيل، الترخيص' },
-      { title: 'العلامة التجارية', desc: 'الاسم، الشعار، الهوية البصرية' },
-      { title: 'التقنية الرقمية', desc: 'الموقع، الأدوات، التقنيات' },
-      { title: 'التسويق والنمو', desc: 'استراتيجيات للسوق الكويتي' },
-      { title: 'المكاتب واللوجستيات', desc: 'مساحات العمل، الموردين' },
-      { title: 'التوظيف والموظفين', desc: 'التوظيف، التأشيرات، قانون العمل' },
-      { title: 'العمليات والأدوات', desc: 'الأنظمة، البرامج' },
-      { title: 'نماذج الميزانيات', desc: 'تفاصيل التكاليف الحقيقية' },
-      { title: 'الأخطاء الشائعة', desc: 'ما يجب تجنبه من اليوم الأول' },
-      { title: 'قوائم المهام', desc: 'خطط عمل خطوة بخطوة' }
+    whyUseDirectory: 'لماذا تستخدم هذا الدليل؟',
+    directoryBenefits: [
+      { title: 'مقدمو خدمات موثقون', desc: 'كل مقدم خدمة تم تقييمه بناءً على تجارب مؤسسين حقيقية' },
+      { title: 'ملاحظات عملية', desc: 'تقييمات صادقة عن الأسعار والجودة وما يمكن توقعه' },
+      { title: 'وفّر وقتك', desc: 'تجاوز البحث في انستغرام وتوصيات الواتساب' }
     ],
 
-    bonusTitle: 'مكافأة: دليل مقدمي الخدمات',
-    bonusDesc: 'قائمة موثقة من الوكالات والمستقلين مع ملاحظات حقيقية',
+    readyToFind: 'مستعد للعثور على مقدم الخدمة المناسب؟',
+    startBrowsing: 'تصفح دليلنا من مقدمي الخدمات الموثوقين واعثر على المناسب لعملك.',
 
-    pricingLabel: 'تسعير بسيط',
-    oneTimePayment: 'دفعة واحدة',
-    pricingFeatures: [
-      'وصول مدى الحياة لجميع المحتوى',
-      'جميع التحديثات المستقبلية مشمولة',
-      'دليل مقدمي الخدمات',
-      'قوائم مهام عملية',
-      'بدون رسوم متكررة'
-    ],
-    getAccessNow: 'احصل على الوصول الآن',
+    comingSoon: 'قريباً',
+    playbookComingSoon: 'دليل المؤسس الكويتي',
+    playbookComingSoonDesc: 'دليل شامل يغطي كل شيء من تأسيس العمل إلى التوظيف. قريباً مع قوائم مهام وميزانيات وإرشادات خطوة بخطوة.',
 
-    getStartedLabel: 'ابدأ الآن',
-    howToGetAccess: 'كيف تحصل على الوصول',
-    steps: [
-      { title: 'راسلنا', desc: 'أرسل لنا رسالة على واتساب' },
-      { title: 'أكمل الدفع', desc: 'ادفع ١٠ د.ك بالطريقة المفضلة' },
-      { title: 'استلم كلمة المرور', desc: 'احصل على كلمة المرور فوراً' },
-      { title: 'افتح الدليل', desc: 'وصول فوري لجميع المحتوى' }
-    ],
-    messageOnWhatsApp: 'راسلنا على واتساب',
-    enterPasswordHere: 'أدخل كلمة المرور هنا',
-
-    isThisForYou: 'هل هذا مناسب لك؟',
-    thisIsForYou: 'هذا مناسب لك إذا...',
-    thisIsNotForYou: 'هذا ليس مناسباً لك إذا...',
-    forYouList: [
-      'أنت مؤسس لأول مرة في الكويت',
-      'تريد تجنب الأخطاء المكلفة',
-      'تقدر المعلومات العملية والقابلة للتنفيذ',
-      'سئمت من النصائح المتضاربة',
-      'تريد التحرك بسرعة وثقة'
-    ],
-    notForYouList: [
-      'تبحث عن مخططات الثراء السريع',
-      'تتوقع منا القيام بالعمل بدلاً منك',
-      'لست جاداً في بناء عمل حقيقي',
-      'أنت رائد أعمال متسلسل ذو خبرة',
-      'تفضل التعلم بالتجربة والخطأ'
-    ],
-
-    readyToBuild: 'مستعد لبناء عملك بالطريقة الصحيحة؟',
-    joinFounders: 'انضم للمؤسسين الذين يبنون بثقة باستخدام دليل المؤسس الكويتي.',
     builtForFounders: 'مصمم للمؤسسين في الكويت',
 
     // Access Page

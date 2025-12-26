@@ -4,6 +4,7 @@ import { useAuth } from './context/AuthContext'
 // Public Pages
 import LandingPage from './pages/LandingPage'
 import AccessPage from './pages/AccessPage'
+import DirectoryPage from './pages/DirectoryPage'
 
 // Protected Pages
 import PlaybookLayout from './pages/playbook/PlaybookLayout'
@@ -72,9 +73,10 @@ export default function App() {
     <Routes>
       {/* Public Routes */}
       <Route path="/" element={<LandingPage />} />
+      <Route path="/directory" element={<DirectoryPage />} />
       <Route path="/access" element={<AccessPage />} />
 
-      {/* Protected Playbook Routes */}
+      {/* Protected Playbook Routes (for future use) */}
       <Route
         path="/playbook"
         element={
@@ -83,7 +85,7 @@ export default function App() {
           </ProtectedRoute>
         }
       >
-        <Route index element={<Navigate to="/playbook/directory" replace />} />
+        <Route index element={<Navigate to="/playbook/dashboard" replace />} />
         <Route path="dashboard" element={<PlaybookDashboard />} />
         <Route path="directory" element={<Directory />} />
         <Route path="checklists" element={<Checklists />} />
