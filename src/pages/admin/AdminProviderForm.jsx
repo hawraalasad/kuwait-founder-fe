@@ -134,10 +134,13 @@ export default function AdminProviderForm() {
         toast.success(isEditing ? 'Provider updated' : 'Provider created')
         navigate('/admin/providers')
       } else {
-        toast.error('Failed to save provider')
+        const errorData = await res.json().catch(() => ({}))
+        console.error('Save provider error:', res.status, errorData)
+        toast.error(errorData.error || errorData.message || `Failed to save provider (${res.status})`)
       }
     } catch (error) {
-      toast.error('Failed to save provider')
+      console.error('Save provider error:', error)
+      toast.error('Connection error. Please try again.')
     } finally {
       setSaving(false)
     }
