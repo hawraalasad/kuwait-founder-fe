@@ -208,12 +208,18 @@ export default function Directory() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [showFilters, setShowFilters] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(10)
 
   const { t, isRTL } = useLanguage()
 
   useEffect(() => {
     fetchData()
   }, [])
+
+  // Reset visible count when filters change
+  useEffect(() => {
+    setVisibleCount(10)
+  }, [searchQuery, selectedCategory])
 
   const fetchData = async () => {
     try {
@@ -265,9 +271,14 @@ export default function Directory() {
   const clearFilters = () => {
     setSearchQuery('')
     setSelectedCategory('')
+    setVisibleCount(10)
   }
 
   const hasActiveFilters = searchQuery || selectedCategory
+
+  // Get only the visible providers
+  const visibleProviders = filteredProviders.slice(0, visibleCount)
+  const hasMore = filteredProviders.length > visibleCount
 
   if (loading) {
     return (
@@ -421,18 +432,30 @@ export default function Directory() {
           )}
         </div>
       ) : (
-        <div className="grid gap-4">
-          {filteredProviders.map(provider => (
-            <ProviderCard
-              key={provider._id}
-              provider={provider}
-              isExpanded={expandedId === provider._id}
-              onExpand={() => setExpandedId(expandedId === provider._id ? null : provider._id)}
-              t={t}
-              isRTL={isRTL}
-            />
-          ))}
-        </div>
+        <>
+          <div className="grid gap-4">
+            {visibleProviders.map(provider => (
+              <ProviderCard
+                key={provider._id}
+                provider={provider}
+                isExpanded={expandedId === provider._id}
+                onExpand={() => setExpandedId(expandedId === provider._id ? null : provider._id)}
+                t={t}
+                isRTL={isRTL}
+              />
+            ))}
+          </div>
+          {hasMore && (
+            <div className="text-center mt-6">
+              <button
+                onClick={() => setVisibleCount(prev => prev + 10)}
+                className="px-6 py-3 bg-deep-teal text-white rounded-lg hover:bg-ocean-blue transition-colors font-medium"
+              >
+                {isRTL ? 'عرض المزيد' : 'See More'}
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   )
