@@ -179,8 +179,18 @@ function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
   )
 }
 
+// Fisher-Yates shuffle algorithm
+function shuffleArray(array) {
+  const shuffled = [...array]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
 export default function DirectoryPage() {
-  const [providers, setProviders] = useState([])
+  const [allProviders, setAllProviders] = useState([]) // All providers, shuffled
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -189,20 +199,20 @@ export default function DirectoryPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [showFilters, setShowFilters] = useState(false)
-  const [hasMore, setHasMore] = useState(true)
-  const [loadingMore, setLoadingMore] = useState(false)
+  const [visibleCount, setVisibleCount] = useState(10)
 
   const { t, isRTL } = useLanguage()
   const BackArrow = isRTL ? ArrowRight : ArrowLeft
 
-  // Fetch categories once on mount
+  // Fetch all data once on mount
   useEffect(() => {
     fetchCategories()
+    fetchProviders()
   }, [])
 
-  // Fetch providers when filters change
+  // Reset visible count when filters change
   useEffect(() => {
-    fetchProviders(true)
+    setVisibleCount(10)
   }, [searchQuery, selectedCategory])
 
   const fetchCategories = async () => {
@@ -217,44 +227,49 @@ export default function DirectoryPage() {
     }
   }
 
-  const fetchProviders = async (reset = false) => {
+  const fetchProviders = async () => {
     try {
-      if (reset) {
-        setLoading(true)
-        setProviders([])
-      } else {
-        setLoadingMore(true)
-      }
-
-      const skip = reset ? 0 : providers.length
-      let url = `/api/providers?limit=10&skip=${skip}`
-
-      if (searchQuery) {
-        url += `&search=${encodeURIComponent(searchQuery)}`
-      }
-      if (selectedCategory) {
-        url += `&category=${selectedCategory}`
-      }
-
-      const res = await api(url)
+      setLoading(true)
+      const res = await api('/api/providers')
       if (!res.ok) throw new Error('Failed to fetch providers')
 
       const data = await res.json()
-
-      if (reset) {
-        setProviders(data.providers || data)
-      } else {
-        setProviders(prev => [...prev, ...(data.providers || data)])
-      }
-
-      setHasMore(data.hasMore ?? false)
+      const providersData = data.providers || data
+      // Shuffle once on load for random order
+      setAllProviders(shuffleArray(providersData))
     } catch (err) {
       setError(isRTL ? 'فشل تحميل الدليل. يرجى المحاولة مرة أخرى.' : 'Failed to load directory. Please try again.')
     } finally {
       setLoading(false)
-      setLoadingMore(false)
     }
   }
+
+  // Client-side filtering
+  const filteredProviders = allProviders.filter(provider => {
+    // Search filter
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase()
+      const matchesName = provider.name?.toLowerCase().includes(query) ||
+                          provider.nameAr?.toLowerCase().includes(query)
+      const matchesDesc = provider.description?.toLowerCase().includes(query) ||
+                          provider.descriptionAr?.toLowerCase().includes(query)
+      if (!matchesName && !matchesDesc) return false
+    }
+
+    // Category filter
+    if (selectedCategory) {
+      const hasCategory = provider.categories?.some(cat =>
+        cat._id === selectedCategory || cat === selectedCategory
+      ) || provider.category?._id === selectedCategory
+      if (!hasCategory) return false
+    }
+
+    return true
+  })
+
+  // Client-side pagination
+  const visibleProviders = filteredProviders.slice(0, visibleCount)
+  const hasMore = visibleCount < filteredProviders.length
 
   const clearFilters = () => {
     setSearchQuery('')
@@ -312,7 +327,7 @@ export default function DirectoryPage() {
         ) : error ? (
           <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
             <p className="text-red-600">{error}</p>
-            <button onClick={fetchData} className="mt-4 btn-primary">
+            <button onClick={fetchProviders} className="mt-4 btn-primary">
               {isRTL ? 'حاول مرة أخرى' : 'Try Again'}
             </button>
           </div>
@@ -409,11 +424,11 @@ export default function DirectoryPage() {
 
             {/* Results count */}
             <p className="text-sm text-medium-gray mb-4">
-              {t('showing')} {providers.length} {t('providers')}
+              {t('showing')} {visibleProviders.length} {isRTL ? 'من' : 'of'} {filteredProviders.length} {t('providers')}
             </p>
 
             {/* Providers Grid */}
-            {providers.length === 0 ? (
+            {filteredProviders.length === 0 ? (
               <div className="bg-white rounded-xl p-12 text-center">
                 <Search className="w-12 h-12 text-medium-gray mx-auto mb-4" />
                 <h3 className="font-bold text-midnight-navy mb-2">{t('noProvidersFound')}</h3>
@@ -427,7 +442,7 @@ export default function DirectoryPage() {
             ) : (
               <>
                 <div className="grid gap-4">
-                  {providers.map(provider => (
+                  {visibleProviders.map(provider => (
                     <ProviderCard
                       key={provider._id}
                       provider={provider}
@@ -441,11 +456,10 @@ export default function DirectoryPage() {
                 {hasMore && (
                   <div className="text-center mt-6">
                     <button
-                      onClick={() => fetchProviders(false)}
-                      disabled={loadingMore}
-                      className="px-6 py-3 bg-deep-teal text-white rounded-lg hover:bg-ocean-blue transition-colors font-medium disabled:opacity-50"
+                      onClick={() => setVisibleCount(prev => prev + 10)}
+                      className="px-6 py-3 bg-deep-teal text-white rounded-lg hover:bg-ocean-blue transition-colors font-medium"
                     >
-                      {loadingMore ? (isRTL ? 'جاري التحميل...' : 'Loading...') : (isRTL ? 'عرض المزيد' : 'See More')}
+                      {isRTL ? 'عرض المزيد' : 'See More'}
                     </button>
                   </div>
                 )}
