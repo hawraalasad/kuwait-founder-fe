@@ -15,6 +15,16 @@ import { useLanguage } from '../context/LanguageContext'
 import LanguageToggle from '../components/LanguageToggle'
 import { api } from '../config/api'
 
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  const shuffled = [...array]
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+  }
+  return shuffled
+}
+
 function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
   return (
     <motion.div
@@ -213,7 +223,7 @@ export default function DirectoryPage() {
         categoriesRes.json()
       ])
 
-      setProviders(providersData)
+      setProviders(shuffleArray(providersData))
       setCategories(categoriesData)
     } catch (err) {
       setError(isRTL ? 'فشل تحميل الدليل. يرجى المحاولة مرة أخرى.' : 'Failed to load directory. Please try again.')
