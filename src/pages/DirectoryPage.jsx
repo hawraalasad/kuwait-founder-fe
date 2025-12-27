@@ -15,16 +15,6 @@ import { useLanguage } from '../context/LanguageContext'
 import LanguageToggle from '../components/LanguageToggle'
 import { api } from '../config/api'
 
-// Fisher-Yates shuffle algorithm
-const shuffleArray = (array) => {
-  const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-  return shuffled
-}
-
 function ProviderCard({ provider, onExpand, isExpanded, t, isRTL }) {
   return (
     <motion.div
@@ -199,76 +189,79 @@ export default function DirectoryPage() {
   const [selectedCategory, setSelectedCategory] = useState('')
   const [expandedId, setExpandedId] = useState(null)
   const [showFilters, setShowFilters] = useState(false)
-  const [visibleCount, setVisibleCount] = useState(10)
+  const [hasMore, setHasMore] = useState(true)
+  const [loadingMore, setLoadingMore] = useState(false)
 
   const { t, isRTL } = useLanguage()
   const BackArrow = isRTL ? ArrowRight : ArrowLeft
 
+  // Fetch categories once on mount
   useEffect(() => {
-    fetchData()
+    fetchCategories()
   }, [])
 
-  // Reset visible count when filters change
+  // Fetch providers when filters change
   useEffect(() => {
-    setVisibleCount(10)
+    fetchProviders(true)
   }, [searchQuery, selectedCategory])
 
-  const fetchData = async () => {
+  const fetchCategories = async () => {
     try {
-      const [providersRes, categoriesRes] = await Promise.all([
-        api('/api/providers'),
-        api('/api/categories')
-      ])
+      const res = await api('/api/categories')
+      if (res.ok) {
+        const data = await res.json()
+        setCategories(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch categories')
+    }
+  }
 
-      if (!providersRes.ok || !categoriesRes.ok) {
-        throw new Error('Failed to fetch data')
+  const fetchProviders = async (reset = false) => {
+    try {
+      if (reset) {
+        setLoading(true)
+        setProviders([])
+      } else {
+        setLoadingMore(true)
       }
 
-      const [providersData, categoriesData] = await Promise.all([
-        providersRes.json(),
-        categoriesRes.json()
-      ])
+      const skip = reset ? 0 : providers.length
+      let url = `/api/providers?limit=10&skip=${skip}`
 
-      setProviders(shuffleArray(providersData))
-      setCategories(categoriesData)
+      if (searchQuery) {
+        url += `&search=${encodeURIComponent(searchQuery)}`
+      }
+      if (selectedCategory) {
+        url += `&category=${selectedCategory}`
+      }
+
+      const res = await api(url)
+      if (!res.ok) throw new Error('Failed to fetch providers')
+
+      const data = await res.json()
+
+      if (reset) {
+        setProviders(data.providers || data)
+      } else {
+        setProviders(prev => [...prev, ...(data.providers || data)])
+      }
+
+      setHasMore(data.hasMore ?? false)
     } catch (err) {
       setError(isRTL ? 'فشل تحميل الدليل. يرجى المحاولة مرة أخرى.' : 'Failed to load directory. Please try again.')
     } finally {
       setLoading(false)
+      setLoadingMore(false)
     }
   }
-
-  const filteredProviders = providers.filter(provider => {
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase()
-      const matchesSearch =
-        provider.name.toLowerCase().includes(query) ||
-        provider.description?.toLowerCase().includes(query) ||
-        (provider.nameAr && provider.nameAr.includes(searchQuery)) ||
-        (provider.descriptionAr && provider.descriptionAr.includes(searchQuery))
-      if (!matchesSearch) return false
-    }
-
-    if (selectedCategory) {
-      const hasCategory = provider.categories?.some(cat => (cat._id || cat) === selectedCategory)
-        || provider.category?._id === selectedCategory
-      if (!hasCategory) return false
-    }
-
-    return true
-  })
 
   const clearFilters = () => {
     setSearchQuery('')
     setSelectedCategory('')
-    setVisibleCount(10)
   }
 
   const hasActiveFilters = searchQuery || selectedCategory
-
-  // Get only the visible providers
-  const visibleProviders = filteredProviders.slice(0, visibleCount)
-  const hasMore = filteredProviders.length > visibleCount
 
   return (
     <div className="min-h-screen bg-off-white">
@@ -416,11 +409,11 @@ export default function DirectoryPage() {
 
             {/* Results count */}
             <p className="text-sm text-medium-gray mb-4">
-              {t('showing')} {filteredProviders.length} {t('providers')}
+              {t('showing')} {providers.length} {t('providers')}
             </p>
 
             {/* Providers Grid */}
-            {filteredProviders.length === 0 ? (
+            {providers.length === 0 ? (
               <div className="bg-white rounded-xl p-12 text-center">
                 <Search className="w-12 h-12 text-medium-gray mx-auto mb-4" />
                 <h3 className="font-bold text-midnight-navy mb-2">{t('noProvidersFound')}</h3>
@@ -434,7 +427,7 @@ export default function DirectoryPage() {
             ) : (
               <>
                 <div className="grid gap-4">
-                  {visibleProviders.map(provider => (
+                  {providers.map(provider => (
                     <ProviderCard
                       key={provider._id}
                       provider={provider}
@@ -448,10 +441,11 @@ export default function DirectoryPage() {
                 {hasMore && (
                   <div className="text-center mt-6">
                     <button
-                      onClick={() => setVisibleCount(prev => prev + 10)}
-                      className="px-6 py-3 bg-deep-teal text-white rounded-lg hover:bg-ocean-blue transition-colors font-medium"
+                      onClick={() => fetchProviders(false)}
+                      disabled={loadingMore}
+                      className="px-6 py-3 bg-deep-teal text-white rounded-lg hover:bg-ocean-blue transition-colors font-medium disabled:opacity-50"
                     >
-                      {isRTL ? 'عرض المزيد' : 'See More'}
+                      {loadingMore ? (isRTL ? 'جاري التحميل...' : 'Loading...') : (isRTL ? 'عرض المزيد' : 'See More')}
                     </button>
                   </div>
                 )}
