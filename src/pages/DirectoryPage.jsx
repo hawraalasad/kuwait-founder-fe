@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search,
-  Filter,
   MessageCircle,
   Instagram,
   Globe,
@@ -198,7 +197,6 @@ export default function DirectoryPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [expandedId, setExpandedId] = useState(null)
-  const [showFilters, setShowFilters] = useState(false)
   const [visibleCount, setVisibleCount] = useState(10)
 
   const { t, isRTL } = useLanguage()
@@ -335,6 +333,7 @@ export default function DirectoryPage() {
           <>
             {/* Search and Filters */}
             <div className="bg-white rounded-xl shadow-sm p-4 mb-6">
+              {/* Search bar */}
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="relative flex-1">
                   <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 -translate-y-1/2 w-5 h-5 text-medium-gray`} />
@@ -347,17 +346,7 @@ export default function DirectoryPage() {
                   />
                 </div>
 
-                <button
-                  onClick={() => setShowFilters(!showFilters)}
-                  className="md:hidden flex items-center justify-center gap-2 px-4 py-3 bg-light-gray rounded-lg"
-                >
-                  <Filter className="w-5 h-5" />
-                  {isRTL ? 'الفلاتر' : 'Filters'}
-                  {hasActiveFilters && (
-                    <span className="w-2 h-2 bg-kuwait-gold rounded-full"></span>
-                  )}
-                </button>
-
+                {/* Desktop dropdown */}
                 <div className="hidden md:flex items-center gap-4">
                   <select
                     value={selectedCategory}
@@ -383,43 +372,34 @@ export default function DirectoryPage() {
                 </div>
               </div>
 
-              <AnimatePresence>
-                {showFilters && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="md:hidden mt-4 pt-4 border-t border-light-gray overflow-hidden"
+              {/* Mobile category chips - horizontally scrollable */}
+              <div className="md:hidden mt-4 -mx-4 px-4 overflow-x-auto scrollbar-hide">
+                <div className="flex gap-2 pb-2">
+                  <button
+                    onClick={() => setSelectedCategory('')}
+                    className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                      !selectedCategory
+                        ? 'bg-deep-teal text-white'
+                        : 'bg-light-gray text-charcoal hover:bg-gray-200'
+                    }`}
                   >
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-charcoal mb-2">
-                        {isRTL ? 'الفئة' : 'Category'}
-                      </label>
-                      <select
-                        value={selectedCategory}
-                        onChange={(e) => setSelectedCategory(e.target.value)}
-                        className="input-field w-full"
-                      >
-                        <option value="">{t('allCategories')}</option>
-                        {categories.map(cat => (
-                          <option key={cat._id} value={cat._id}>
-                            {isRTL && cat.nameAr ? cat.nameAr : cat.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    {hasActiveFilters && (
-                      <button
-                        onClick={clearFilters}
-                        className="text-sm text-red-500"
-                      >
-                        {t('clearFilters')}
-                      </button>
-                    )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                    {t('allCategories')}
+                  </button>
+                  {categories.map(cat => (
+                    <button
+                      key={cat._id}
+                      onClick={() => setSelectedCategory(cat._id)}
+                      className={`flex-shrink-0 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                        selectedCategory === cat._id
+                          ? 'bg-deep-teal text-white'
+                          : 'bg-light-gray text-charcoal hover:bg-gray-200'
+                      }`}
+                    >
+                      {isRTL && cat.nameAr ? cat.nameAr : cat.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
 
             {/* Results count */}
