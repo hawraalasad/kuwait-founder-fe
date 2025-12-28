@@ -55,7 +55,7 @@ export default function LandingPage() {
 
         <div className="container mx-auto px-6 py-8 relative z-10">
           <nav className="flex justify-between items-center mb-16">
-            <img src="/assets/logo-reversed.svg" alt="Kuwait Founder" className="h-12" />
+            <img src="/assets/logo-primary-v2.svg" alt="Kuwait Founder" className="h-12" />
             <LanguageToggle className="text-white" />
           </nav>
 
@@ -102,7 +102,7 @@ export default function LandingPage() {
           </motion.div>
 
           <motion.div
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto"
+            className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 max-w-5xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -116,21 +116,21 @@ export default function LandingPage() {
                   to={`/directory?category=${category._id}`}
                 >
                   <motion.div
-                    className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer border-2 border-transparent hover:border-deep-teal/20"
+                    className="bg-white rounded-lg md:rounded-xl p-3 md:p-5 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer border-2 border-transparent hover:border-deep-teal/20 h-full"
                     variants={fadeInUp}
                   >
-                    <div className="w-12 h-12 bg-deep-teal/10 rounded-lg flex items-center justify-center mb-4">
-                      <Icon className="w-6 h-6 text-deep-teal" />
+                    <div className="w-9 h-9 md:w-11 md:h-11 bg-deep-teal/10 rounded-lg flex items-center justify-center mb-2 md:mb-3">
+                      <Icon className="w-5 h-5 md:w-6 md:h-6 text-deep-teal" />
                     </div>
-                    <h3 className="font-bold text-midnight-navy mb-2">
+                    <h3 className="font-bold text-midnight-navy text-sm md:text-base mb-1">
                       {isRTL && category.nameAr ? category.nameAr : category.name}
                     </h3>
-                    <p className="text-medium-gray text-sm">
+                    <p className="text-medium-gray text-xs md:text-sm line-clamp-2">
                       {isRTL && category.descriptionAr ? category.descriptionAr : category.description}
                     </p>
-                    <span className="inline-flex items-center gap-1 text-deep-teal text-sm font-medium mt-3">
+                    <span className="inline-flex items-center gap-1 text-deep-teal text-xs md:text-sm font-medium mt-2">
                       {isRTL ? 'استعرض' : 'Browse'}
-                      <Arrow className="w-4 h-4" />
+                      <Arrow className="w-3 h-3 md:w-4 md:h-4" />
                     </span>
                   </motion.div>
                 </Link>
@@ -209,7 +209,7 @@ export default function LandingPage() {
       <footer className="py-12 bg-midnight-navy text-white">
         <div className="container mx-auto px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <img src="/assets/logo-reversed.svg" alt="Kuwait Founder" className="h-10" />
+            <img src="/assets/logo-primary-v2.svg" alt="Kuwait Founder" className="h-10" />
             <p className="text-white/60 text-sm">
               {t('builtForFounders')} © {new Date().getFullYear()}
             </p>

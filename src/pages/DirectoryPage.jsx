@@ -209,12 +209,12 @@ export default function DirectoryPage() {
     fetchProviders()
   }, [])
 
-  // Update URL when category changes
+  // Update URL when category changes (use replace to not break browser back button)
   useEffect(() => {
     if (selectedCategory) {
-      setSearchParams({ category: selectedCategory })
+      setSearchParams({ category: selectedCategory }, { replace: true })
     } else {
-      setSearchParams({})
+      setSearchParams({}, { replace: true })
     }
   }, [selectedCategory])
 
