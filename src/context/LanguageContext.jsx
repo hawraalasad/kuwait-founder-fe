@@ -16,8 +16,9 @@ const translations = {
     directoryHeroSubtitle: 'A curated directory of agencies, freelancers, and service providers — built for founders.',
     browseDirectory: 'Browse Directory',
 
-    whatYoullFind: 'What You\'ll Find',
-    whatYoullFindDesc: 'Browse through categories of service providers that every Kuwait founder needs.',
+    whatLookingFor: 'What are you looking for?',
+    clickCategoryToExplore: 'Click a category to explore service providers',
+    browseAllProviders: 'Browse all providers',
 
     directoryCategories: [
       { title: 'Legal & Licensing', desc: 'Company formation, trade licenses, legal consultants' },
@@ -107,8 +108,9 @@ const translations = {
     directoryHeroSubtitle: 'دليل منتقى من الوكالات والمستقلين ومقدمي الخدمات — مصمم للمؤسسين.',
     browseDirectory: 'تصفح الدليل',
 
-    whatYoullFind: 'ماذا ستجد',
-    whatYoullFindDesc: 'تصفح فئات مقدمي الخدمات التي يحتاجها كل مؤسس في الكويت.',
+    whatLookingFor: 'ماذا تبحث عن؟',
+    clickCategoryToExplore: 'اضغط على فئة لاستعراض مقدمي الخدمات',
+    browseAllProviders: 'تصفح جميع مقدمي الخدمات',
 
     directoryCategories: [
       { title: 'القانونية والتراخيص', desc: 'تأسيس الشركات، الرخص التجارية، المستشارين القانونيين' },

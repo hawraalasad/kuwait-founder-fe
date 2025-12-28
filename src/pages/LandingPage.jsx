@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import LanguageToggle from '../components/LanguageToggle'
+import { api } from '../config/api'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -24,8 +26,25 @@ const fadeInUp = {
 const categoryIcons = [Building, Palette, Code, TrendingUp, Briefcase, Megaphone]
 
 export default function LandingPage() {
+  const [categories, setCategories] = useState([])
   const { t, isRTL } = useLanguage()
   const Arrow = isRTL ? ArrowLeft : ArrowRight
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
+  const fetchCategories = async () => {
+    try {
+      const res = await api('/api/categories')
+      if (res.ok) {
+        const data = await res.json()
+        setCategories(data)
+      }
+    } catch (err) {
+      console.error('Failed to fetch categories')
+    }
+  }
 
   return (
     <div className="min-h-screen">
@@ -65,7 +84,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* What You'll Find Section */}
+      {/* What are you looking for Section */}
       <section className="py-20 bg-off-white">
         <div className="container mx-auto px-6">
           <motion.div
@@ -75,10 +94,10 @@ export default function LandingPage() {
             viewport={{ once: true }}
           >
             <h2 className="text-3xl md:text-4xl font-bold text-midnight-navy mb-4">
-              {t('whatYoullFind')}
+              {t('whatLookingFor')}
             </h2>
             <p className="text-medium-gray text-lg max-w-2xl mx-auto">
-              {t('whatYoullFindDesc')}
+              {t('clickCategoryToExplore')}
             </p>
           </motion.div>
 
@@ -89,22 +108,50 @@ export default function LandingPage() {
             viewport={{ once: true }}
             transition={{ staggerChildren: 0.1 }}
           >
-            {t('directoryCategories').map((category, index) => {
+            {categories.map((category, index) => {
               const Icon = categoryIcons[index % categoryIcons.length]
               return (
-                <motion.div
-                  key={index}
-                  className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
-                  variants={fadeInUp}
+                <Link
+                  key={category._id}
+                  to={`/directory?category=${category._id}`}
                 >
-                  <div className="w-12 h-12 bg-deep-teal/10 rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="w-6 h-6 text-deep-teal" />
-                  </div>
-                  <h3 className="font-bold text-midnight-navy mb-2">{category.title}</h3>
-                  <p className="text-medium-gray text-sm">{category.desc}</p>
-                </motion.div>
+                  <motion.div
+                    className="bg-white rounded-xl p-6 shadow-sm hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer border-2 border-transparent hover:border-deep-teal/20"
+                    variants={fadeInUp}
+                  >
+                    <div className="w-12 h-12 bg-deep-teal/10 rounded-lg flex items-center justify-center mb-4">
+                      <Icon className="w-6 h-6 text-deep-teal" />
+                    </div>
+                    <h3 className="font-bold text-midnight-navy mb-2">
+                      {isRTL && category.nameAr ? category.nameAr : category.name}
+                    </h3>
+                    <p className="text-medium-gray text-sm">
+                      {isRTL && category.descriptionAr ? category.descriptionAr : category.description}
+                    </p>
+                    <span className="inline-flex items-center gap-1 text-deep-teal text-sm font-medium mt-3">
+                      {isRTL ? 'استعرض' : 'Browse'}
+                      <Arrow className="w-4 h-4" />
+                    </span>
+                  </motion.div>
+                </Link>
               )
             })}
+          </motion.div>
+
+          {/* Browse All Button */}
+          <motion.div
+            className="text-center mt-10"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+          >
+            <Link
+              to="/directory"
+              className="inline-flex items-center gap-2 text-deep-teal font-semibold hover:text-ocean-blue transition-colors"
+            >
+              {t('browseAllProviders')}
+              <Arrow className="w-5 h-5" />
+            </Link>
           </motion.div>
         </div>
       </section>

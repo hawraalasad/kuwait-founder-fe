@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Search,
@@ -189,13 +189,14 @@ function shuffleArray(array) {
 }
 
 export default function DirectoryPage() {
+  const [searchParams, setSearchParams] = useSearchParams()
   const [allProviders, setAllProviders] = useState([]) // All providers, shuffled
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || '')
   const [expandedId, setExpandedId] = useState(null)
   const [visibleCount, setVisibleCount] = useState(10)
 
@@ -207,6 +208,15 @@ export default function DirectoryPage() {
     fetchCategories()
     fetchProviders()
   }, [])
+
+  // Update URL when category changes
+  useEffect(() => {
+    if (selectedCategory) {
+      setSearchParams({ category: selectedCategory })
+    } else {
+      setSearchParams({})
+    }
+  }, [selectedCategory])
 
   // Reset visible count when filters change
   useEffect(() => {
