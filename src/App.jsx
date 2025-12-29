@@ -25,6 +25,7 @@ import AdminChecklists from './pages/admin/AdminChecklists'
 import AdminChecklistForm from './pages/admin/AdminChecklistForm'
 import AdminAccessCodes from './pages/admin/AdminAccessCodes'
 import AdminAccessLog from './pages/admin/AdminAccessLog'
+import AdminAnalytics from './pages/admin/AdminAnalytics'
 
 // Loading component
 function LoadingScreen() {
@@ -113,6 +114,7 @@ export default function App() {
         <Route path="checklists/:id" element={<AdminChecklistForm />} />
         <Route path="access-codes" element={<AdminAccessCodes />} />
         <Route path="access-log" element={<AdminAccessLog />} />
+        <Route path="analytics" element={<AdminAnalytics />} />
       </Route>
 
       {/* Catch all */}

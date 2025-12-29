@@ -9,6 +9,7 @@ import {
   CheckSquare,
   Key,
   ClipboardList,
+  BarChart3,
   LogOut,
   Menu,
   X,
@@ -35,7 +36,8 @@ export default function AdminLayout() {
     { to: '/admin/categories', label: 'Categories', icon: Tag },
     { to: '/admin/checklists', label: 'Checklists', icon: CheckSquare },
     { to: '/admin/access-codes', label: 'Access Codes', icon: Key },
-    { to: '/admin/access-log', label: 'Access Log', icon: ClipboardList }
+    { to: '/admin/access-log', label: 'Access Log', icon: ClipboardList },
+    { to: '/admin/analytics', label: 'Analytics', icon: BarChart3 }
   ]
 
   return (
